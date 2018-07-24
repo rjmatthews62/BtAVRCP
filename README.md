@@ -43,3 +43,25 @@ The actual PDU byte follows the header.
 The other main packet type I have observed is opcode 0x7c, or Passthrough. 
 
 I'm still not sure where the operation_ids are actually defined, but I found a workable list which is included in the body of the python code.
+
+Example:
+<pre>
+Received on initial connection:
+10 11 0e 01 48 00 00 19 58 10 00 00 01 03 
+10 11 0e = AVCTP header.
+01 = Command type STATUS
+48 00 00 19 58 = AVRCP identifier
+00 = reserved
+10 = getCapabilities
+00 01 = parameter length
+03 = Get supported event list
+
+When Play/Pause button is pressed:
+20 11 0e 00 48 7c 44 00 
+20 11 0e = AVCTP Header
+00 = Command Type CONTROL
+48 = Subunit iD (always 0x48 for AVRCP)
+7c = Passthrough command
+44 = Action (in this case PLAY. PAUSE=0x46. See operation_ids in code. These tend to toggle)
+00 = Operation data length (in this case, none)
+</pre>
